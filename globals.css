@@ -1,0 +1,314 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------
+   VEYA — Design tokens (system-aware light / dark via data-theme)
+   ---------------------------------------------------------------- */
+:root {
+  --bg: #050b07;
+  --bg-soft: #07120c;
+  --surface: #0a1710;
+  --surface-2: #0f2116;
+  --surface-glass: rgba(8, 20, 13, 0.72);
+  --border: #1a2e21;
+  --border-strong: #2c4837;
+  --text: #edf5ee;
+  --muted: #9db4a4;
+  --accent: #34d399;
+  --accent-strong: #6ee7b7;
+  --accent-deep: #059669;
+  --on-accent: #03150c;
+  --gold: #b9cf6d;
+  --danger: #f87171;
+  --shadow-soft: 0 24px 60px -32px rgba(0, 0, 0, 0.75);
+  --shadow-lift: 0 36px 90px -40px rgba(0, 0, 0, 0.85);
+}
+
+[data-theme="dark"] {
+  --bg: #050b07;
+  --bg-soft: #07120c;
+  --surface: #0a1710;
+  --surface-2: #0f2116;
+  --surface-glass: rgba(7, 18, 11, 0.78);
+  --border: #1a2e21;
+  --border-strong: #2c4837;
+  --text: #edf5ee;
+  --muted: #9db4a4;
+  --accent: #34d399;
+  --accent-strong: #6ee7b7;
+  --accent-deep: #059669;
+  --on-accent: #03150c;
+  --gold: #b9cf6d;
+  --danger: #f87171;
+  --shadow-soft: 0 24px 60px -32px rgba(0, 0, 0, 0.75);
+  --shadow-lift: 0 36px 90px -40px rgba(0, 0, 0, 0.85);
+  color-scheme: dark;
+}
+
+[data-theme="light"] {
+  --bg: #f1f5ee;
+  --bg-soft: #e7efe1;
+  --surface: #ffffff;
+  --surface-2: #edf4e6;
+  --surface-glass: rgba(244, 248, 240, 0.8);
+  --border: #d6e1cf;
+  --border-strong: #b7cba9;
+  --text: #0d2417;
+  --muted: #486351;
+  --accent: #047857;
+  --accent-strong: #065f46;
+  --accent-deep: #064e3b;
+  --on-accent: #f2fbf6;
+  --gold: #6d8a2c;
+  --danger: #b91c1c;
+  --shadow-soft: 0 24px 55px -30px rgba(18, 42, 26, 0.28);
+  --shadow-lift: 0 36px 80px -42px rgba(18, 42, 26, 0.35);
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-background-soft: var(--bg-soft);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-glass: var(--surface-glass);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-foreground: var(--text);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-deep: var(--accent-deep);
+  --color-on-accent: var(--on-accent);
+  --color-gold: var(--gold);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-sans-var), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-display: var(--font-display-var), var(--font-sans-var),
+    ui-sans-serif, system-ui, sans-serif;
+  --shadow-soft: var(--shadow-soft);
+  --shadow-lift: var(--shadow-lift);
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 3.6s ease-in-out infinite;
+}
+
+/* ------------------------------- Base ------------------------- */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 8px;
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-deep);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* --------------------------- Motion / reveal ------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes flow-move {
+  0% {
+    left: 0%;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 8px);
+    opacity: 0;
+  }
+}
+
+@keyframes scroll-hint {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-float,
+  .animate-pulse-soft,
+  .flow-dot,
+  .scroll-hint-dot {
+    animation: none !important;
+  }
+}
+
+/* ------------------------- Flow diagram ----------------------- */
+.flow-connector {
+  position: relative;
+  height: 2px;
+  flex: 1 1 2.5rem;
+  min-width: 2rem;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border-strong) 20%,
+    var(--border-strong) 80%,
+    transparent
+  );
+}
+.flow-dot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: 9999px;
+  background: var(--accent);
+  box-shadow: 0 0 12px 2px color-mix(in srgb, var(--accent) 65%, transparent);
+  animation: flow-move 2.8s linear infinite;
+}
+
+.scroll-hint-dot {
+  animation: scroll-hint 2.2s ease-in-out infinite;
+}
+
+/* ------------------------- Text treatments -------------------- */
+.text-gradient {
+  background: linear-gradient(
+    115deg,
+    var(--accent-strong) 0%,
+    var(--accent) 45%,
+    var(--gold) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* -------------------- Scene overlay readability --------------- */
+.scene-shade {
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--bg) 88%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 55%, transparent) 45%,
+    transparent 80%
+  );
+}
+.scene-shade-r {
+  background: linear-gradient(
+    to left,
+    color-mix(in srgb, var(--bg) 88%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 55%, transparent) 45%,
+    transparent 80%
+  );
+}
+.scene-shade-b {
+  background: linear-gradient(
+    to top,
+    var(--bg) 0%,
+    color-mix(in srgb, var(--bg) 72%, transparent) 38%,
+    transparent 100%
+  );
+}
+.scene-shade-t {
+  background: linear-gradient(
+    to bottom,
+    var(--bg) 0%,
+    color-mix(in srgb, var(--bg) 65%, transparent) 40%,
+    transparent 100%
+  );
+}
